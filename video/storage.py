@@ -1,8 +1,7 @@
-from typing import Tuple
+from typing import Tuple, Optional
 import uuid
 import os
 import requests
-
 
 class MediaType:
     IMAGE = "image"
