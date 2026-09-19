@@ -49,25 +49,41 @@ docker run --rm --gpus=all -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABI
 
 # Configuration
 
-Secrets are read from the environment. Copy the template and fill in your own values:
+Secrets are read from the environment, so any secret manager that injects environment variables works without code changes.
+
+## Doppler (recommended)
+
+Enter the value itself in the [Doppler dashboard](https://dashboard.doppler.com), or with `doppler secrets set TYPESAFE_API_KEY` and paste it at the prompt. Avoid `doppler secrets set TYPESAFE_API_KEY=<value>` — an inline value is recorded in your shell history and is visible in the process list.
+
+Link the repository to your Doppler project once:
+
+```bash
+doppler login
+doppler setup
+```
+
+Then start the server with secrets injected:
+
+```bash
+# Python
+doppler run -- fastapi dev server.py --host 0.0.0.0
+
+# Docker — `-e NAME` with no value forwards it from the Doppler-injected environment
+doppler run -- docker run --rm -e TYPESAFE_API_KEY -p 8000:8000 -it gyoridavid/ai-agents-no-code-tools:latest
+```
+
+Nothing secret is written to disk this way, and there is no `.env` file to leak or forget.
+
+## Local .env fallback
+
+For offline work, or without the Doppler CLI:
 
 ```bash
 cp .env.example .env
-```
-
-`.env` is gitignored and dockerignored, so your keys stay out of commits and out of built images. Never hardcode a key in `server.py` or in the `video/` modules.
-
-Supply the variables when you start the server:
-
-```bash
-# Docker
-docker run --rm --env-file .env -p 8000:8000 -it gyoridavid/ai-agents-no-code-tools:latest
-
-# Python
 set -a && . ./.env && set +a && fastapi dev server.py --host 0.0.0.0
 ```
 
-In production, prefer your platform's secret store (Docker/Kubernetes secrets, or your host's environment settings) over shipping a `.env` file.
+`.env` is gitignored and dockerignored, so keys stay out of commits and out of built images. Never hardcode a key in `server.py` or in the `video/` modules.
 
 # Documentation
 
