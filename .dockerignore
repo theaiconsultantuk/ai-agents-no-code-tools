@@ -53,3 +53,8 @@ tmp/
 .cache/
 *.tmp
 *.bak
+
+# Secrets
+.env
+.env.*
+!.env.example

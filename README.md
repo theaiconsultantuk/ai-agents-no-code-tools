@@ -47,6 +47,28 @@ docker run --rm --gpus=all -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABI
    fastapi dev server.py --host 0.0.0.0
    ```
 
+# Configuration
+
+Secrets are read from the environment. Copy the template and fill in your own values:
+
+```bash
+cp .env.example .env
+```
+
+`.env` is gitignored and dockerignored, so your keys stay out of commits and out of built images. Never hardcode a key in `server.py` or in the `video/` modules.
+
+Supply the variables when you start the server:
+
+```bash
+# Docker
+docker run --rm --env-file .env -p 8000:8000 -it gyoridavid/ai-agents-no-code-tools:latest
+
+# Python
+set -a && . ./.env && set +a && fastapi dev server.py --host 0.0.0.0
+```
+
+In production, prefer your platform's secret store (Docker/Kubernetes secrets, or your host's environment settings) over shipping a `.env` file.
+
 # Documentation
 
 After starting the project, you can access the documentation at [http://localhost:8000/docs](http://localhost:8000/docs).

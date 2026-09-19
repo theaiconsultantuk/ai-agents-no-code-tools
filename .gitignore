@@ -6,3 +6,8 @@ tmp
 captions
 .DS_Store
 ._.DS_Store
+
+# Secrets — never commit real keys
+.env
+.env.*
+!.env.example
