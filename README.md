@@ -51,6 +51,8 @@ docker run --rm --gpus=all -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABI
 
 Secrets are read from the environment, so any secret manager that injects environment variables works without code changes.
 
+Get a TypeSafe API key from the [dashboard](https://console.typesafe.ai/keys); the `typesafe-sdk` client reads `TYPESAFE_API_KEY` automatically.
+
 ## Doppler (recommended)
 
 Enter the value itself in the [Doppler dashboard](https://dashboard.doppler.com), or with `doppler secrets set TYPESAFE_API_KEY` and paste it at the prompt. Avoid `doppler secrets set TYPESAFE_API_KEY=<value>` — an inline value is recorded in your shell history and is visible in the process list.

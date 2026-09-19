@@ -15,6 +15,11 @@ def mask(secret: str) -> str:
 def get_api_key(required: bool = True) -> str | None:
     """Read the TypeSafe API key from the environment.
 
+    `typesafe_sdk.TypeSafeClient()` reads this same variable automatically, so
+    most call sites can just construct the client directly. Use this helper
+    when you need to check for the key's presence before that, or want the
+    masked log line.
+
     The key is never logged, only a masked preview. Keep it server-side: do not
     return it to clients or embed it in generated media or responses.
     """
